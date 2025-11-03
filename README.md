@@ -1,134 +1,73 @@
-# Doctor Appointment UI
+# React + TypeScript + Vite
 
-A modern, responsive web application for booking and managing doctor appointments built with React, TypeScript, and Material-UI.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Features
+Currently, two official plugins are available:
 
-- 📝 **Complete Appointment Booking Form** with validation
-  - Patient details (name, phone, email)
-  - Doctor and department selection
-  - Date and time picker with constraints
-  - Visit type selection (New/Follow-up)
-  - Symptoms/notes field
-  - Consent checkbox
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-- 📋 **Appointment Management**
-  - View all appointments as responsive cards
-  - Edit existing appointments
-  - Cancel appointments with confirmation dialog
-  - Status tracking (Booked/Cancelled)
+## React Compiler
 
-- 🎨 **Modern UI/UX**
-  - Responsive design (mobile-first)
-  - Material-UI components
-  - Inline validation with helpful error messages
-  - Success notifications via Snackbar
-  - Color-coded department avatars
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Tech Stack
+## Expanding the ESLint configuration
 
-- **React 18** - UI library
-- **TypeScript** - Type safety
-- **Vite** - Build tool and dev server
-- **Material-UI (MUI) v5** - Component library
-- **@mui/x-date-pickers** - Advanced date/time pickers
-- **dayjs** - Date manipulation
-- **@emotion** - CSS-in-JS styling
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Prerequisites
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-- Node.js 16+ and npm/yarn/pnpm
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-## Installation
-
-1. **Install dependencies:**
-
-```bash
-npm install
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-## Running the Application
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-Start the development server:
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-```bash
-npm run dev
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-The app will be available at `http://localhost:5173`
-
-## Build for Production
-
-```bash
-npm run build
-```
-
-Preview the production build:
-
-```bash
-npm run preview
-```
-
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── AppointmentForm.tsx    # Form component with validation
-│   ├── AppointmentCard.tsx    # Card component for displaying appointments
-│   └── ConfirmDialog.tsx      # Reusable confirmation dialog
-├── types.ts                   # TypeScript interfaces
-├── App.tsx                    # Main app component
-├── main.tsx                   # Entry point
-└── index.css                  # Global styles
-```
-
-## Form Validation Rules
-
-- **Patient Name**: Required
-- **Phone Number**: Required, must be 10 digits
-- **Email**: Optional, must be valid email format if provided
-- **Doctor**: Required
-- **Department**: Required (auto-filled when doctor is selected)
-- **Appointment Date**: Required, future dates only
-- **Appointment Time**: Required, between 09:00 - 17:00 (clinic hours)
-- **Consent**: Required
-
-## Features Breakdown
-
-### Appointment Form
-- 2-column layout on desktop, single column on mobile
-- Real-time validation with error messages
-- Submit button disabled until all required fields are valid
-- Reset button to clear form
-- Auto-selects department when doctor is chosen
-- Date picker restricts past dates
-- Time picker enforces clinic hours (9 AM - 5 PM)
-
-### Appointment Cards
-- Responsive grid (1 column mobile, 2-3 columns desktop)
-- Color-coded avatars based on department
-- Display all key information clearly
-- Edit and Cancel action buttons
-- Chips for visit type and status
-
-### User Experience
-- Confirmation dialog before canceling appointments
-- Success snackbar notifications
-- Smooth scrolling to form when editing
-- Form pre-fills when editing an appointment
-
-## Sample Doctors
-
-- Dr. Rao – Cardiology
-- Dr. Meera – Dermatology
-- Dr. Arjun – Pediatrics
-- Dr. Sharma – General Medicine
-
-## License
-
-MIT
-
-## Author
-
-Built with ❤️ using React and Material-UI
